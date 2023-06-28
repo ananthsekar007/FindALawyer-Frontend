@@ -58,7 +58,7 @@ const ClientSignUp = () => {
           />
           <Button text="Sign up" />
           <p className="text-xs cursor-pointer self-end" onClick={() => {
-            navigate("/client/signup")
+            navigate("/client/login")
           }}>
             Have an account? Login!
           </p>
