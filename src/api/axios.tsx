@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { API_BASE_URL } from '../constants/AppConstants';
 // import { getToken } from '../hooks/useToken';
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5269/api/",
+  baseURL: API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(
