@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Profile from "../../assets/profile.png";
 
 const routerConfig = [
@@ -29,14 +29,15 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   const toggleOptions = () => {
-    setIsOptionsOpen(prevState => !prevState);
-  }
+    setIsOptionsOpen((prevState) => !prevState);
+  };
 
   return (
     <>
@@ -118,7 +119,12 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
               {isOptionsOpen && (
                 <div className="absolute top-0 right-0 mt-12 w-40 bg-white rounded shadow">
                   <ul className="py-2">
-                    <li className="px-4 py-2 hover:bg-gray-200 cursor-pointer">
+                    <li
+                      className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                      onClick={() => {
+                        navigate("/client/login");
+                      }}
+                    >
                       Logout
                     </li>
                   </ul>
