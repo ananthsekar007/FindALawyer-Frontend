@@ -25,7 +25,7 @@ const ClientLogin = () => {
         <img src={LawyerImage} className="w-36 h-36" />
         <div className="mt-12 space-y-5 flex flex-col">
           <div>
-          <p className="font-extrabold text-xl">Hey, hello 👋</p>
+          <p className="font-extrabold text-xl font-[Mukta]">Hey, hello 👋</p>
           <p className="font-extralight text-sm">Enter the information you entered while registering!</p>
           </div>
           <Textfield
