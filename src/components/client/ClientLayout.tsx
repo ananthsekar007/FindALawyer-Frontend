@@ -57,7 +57,7 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
               id="mobile-menu"
               className={`${
                 isMenuOpen ? "flex" : "hidden"
-              } md:hidden z-50 absolute top-0 right-[0.5%] text-5xl  flex-col justify-content-center`}
+              } md:hidden z-50 absolute top-0 right-0 text-5xl  flex-col justify-content-center`}
             >
               <nav
                 className={`flex flex-col h-screen w-screen bg-gradient-to-br from-blue-200 to-purple-200 items-center space-y-5 py-8 ${
