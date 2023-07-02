@@ -1,11 +1,40 @@
 import Button from "../../../components/Button";
-import Textfield from "../../../components/TextField";
+import TextField from "../../../components/TextField";
 import LawyerImage from "../../../assets/Lawyer.jpg";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { clientSignUp } from "../../../api/client/clientAuthApi";
+import { setClient, setClientAuthToken } from "../../../constants/LocalStorage";
+
+type SignUpFormValues = {
+  name: string;
+  emailAddress: string;
+  phoneNumber: string;
+  password: string;
+  address: string;
+  confirmPassword?: string;
+};
 
 const ClientSignUp = () => {
-
   const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<SignUpFormValues>();
+
+  const password = watch("password");
+
+  const onSignUp = async (data: SignUpFormValues) => {
+    delete data.confirmPassword;
+    const response = await clientSignUp(data);
+    if(!response.data) return console.log("Error");
+      setClient(response.data.client);
+      setClientAuthToken(response.data.authToken);
+      navigate("/");
+  };
 
   return (
     <div className="flex w-full h-full md:h-screen overflow-hidden">
@@ -24,42 +53,121 @@ const ClientSignUp = () => {
       </section>
       <section className="w-full overflow-y-auto h-full md:w-1/2 shadow-xl flex flex-col items-center px-20 pt-5">
         <img src={LawyerImage} className="w-36 h-36" />
-        <div className="mt-12 space-y-5 flex flex-col mb-10">
+        <div className="mt-12 mb-10 flex flex-col space-y-3">
           <div>
             <p className="font-extrabold text-xl">Hey, hello 👋</p>
             <p className="font-extralight text-sm">
               Enter the information to start your journey!
             </p>
           </div>
-          <Textfield id="name" label="Name" name="name" type="name" />
-          <Textfield
-            id="email"
-            label="Email Address"
-            name="email"
-            type="email"
-          />
-          <Textfield
-            id="phoneNumber"
-            label="Phone Number"
-            name="phoneNumber"
-            type="tel"
-          />
-          <Textfield
-            id="password"
-            label="Password"
-            name="password"
-            type="password"
-          />
-          <Textfield
-            id="password1"
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-          />
-          <Button text="Sign up" />
-          <p className="text-xs cursor-pointer self-end" onClick={() => {
-            navigate("/client/login")
-          }}>
+          <form
+            className="flex flex-col space-y-5"
+            onSubmit={handleSubmit(onSignUp)}
+          >
+            <TextField
+              register={register}
+              name="name"
+              id="name"
+              label="Name"
+              type="text"
+              errors={errors}
+              validationSchema={{
+                required: {
+                  value: true,
+                  message: "Name is required!",
+                },
+              }}
+            />
+            <TextField
+              name="emailAddress"
+              register={register}
+              errors={errors}
+              validationSchema={{
+                required: {
+                  value: true,
+                  message: "Email is required!",
+                },
+                pattern: {
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i,
+                  message: "Email is not valid!",
+                },
+              }}
+              id="email"
+              label="Email Address"
+              type="email"
+            />
+            <TextField
+              name="phoneNumber"
+              register={register}
+              errors={errors}
+              validationSchema={{
+                required: {
+                  value: true,
+                  message: "Phone number is required!",
+                },
+                minLength: {
+                  value: 10,
+                  message: "Invalid phone number!",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "Invalid phone number!",
+                },
+              }}
+              id="phoneNumber"
+              label="Phone Number"
+              type="tel"
+            />
+            <TextField
+              name="address"
+              register={register}
+              errors={errors}
+              validationSchema={{
+                required: {
+                  value: true,
+                  message: "Address is Required!",
+                },
+              }}
+              id="address"
+              label="Address"
+            />
+            <TextField
+              name="password"
+              register={register}
+              errors={errors}
+              validationSchema={{
+                required: {
+                  value: true,
+                  message: "Password is required!",
+                },
+              }}
+              id="password"
+              label="Password"
+              type="password"
+            />
+            <TextField
+              name="confirmPassword"
+              register={register}
+              errors={errors}
+              validationSchema={{
+                required: {
+                  value: true,
+                  message: "Confirm password is required!",
+                },
+                validate : (value) => value === password || 'Passwords must match!' 
+              }}
+              id="confirmPaessword"
+              label="Confirm Password"
+              type="password"
+            />
+            <Button text="Sign up" />
+          </form>
+          <p
+            className="text-xs cursor-pointer self-end"
+            onClick={() => {
+              navigate("/client/login");
+            }}
+          >
             Have an account? Login!
           </p>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Profile from "../../assets/profile.png";
+import { clientLogout } from "../../constants/LocalStorage";
 
 const routerConfig = [
   {
@@ -122,6 +123,7 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
                     <li
                       className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                       onClick={() => {
+                        clientLogout();
                         navigate("/client/login");
                       }}
                     >

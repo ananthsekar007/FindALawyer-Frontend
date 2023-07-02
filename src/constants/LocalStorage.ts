@@ -1,3 +1,4 @@
+import { Client } from "../types/Client";
 
 const FindALawyerClient = "FindALawyerClient";
 const FindALawyerLawyer = "FindALawyerLawyer";
