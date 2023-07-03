@@ -5,11 +5,12 @@ import ClientHome from "./pages/client/Home";
 import LawyerLogin from "./pages/lawyer/auth/Login";
 import LawyerSignUp from "./pages/lawyer/auth/SignUp";
 import Landing from "./pages/Landing";
+import PrivateClientRoute from "./components/PrivateClientRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Landing />
+    element: <Landing />,
   },
   {
     path: "/client/login",
@@ -17,7 +18,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/client/signup",
-    element: <ClientSignUp />
+    element: <ClientSignUp />,
   },
   {
     path: "/lawyer/login",
@@ -25,7 +26,14 @@ export const router = createBrowserRouter([
   },
   {
     path: "/lawyer/signup",
-    element: <LawyerSignUp />
-  }
+    element: <LawyerSignUp />,
+  },
+  {
+    path: "/client/home",
+    element: (
+      <PrivateClientRoute>
+        <ClientHome />
+      </PrivateClientRoute>
+    ),
+  },
 ]);
-
