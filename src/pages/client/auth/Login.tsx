@@ -1,4 +1,3 @@
-import React, {useContext} from "react";
 import Button from "../../../components/Button";
 import TextField from "../../../components/TextField";
 import LawyerImage from "../../../assets/Client.png";
@@ -7,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { UserLoginType } from "../../../types/UserAuthTypes";
 import { clientLogin } from "../../../api/client/clientAuthApi";
 import { setClient, setClientAuthToken } from "../../../constants/LocalStorage";
-import { AuthContext, useAuth } from "../../../context/AuthContext";
 
 const ClientLogin = () => {
   const navigate = useNavigate();
