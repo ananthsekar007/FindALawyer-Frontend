@@ -1,14 +1,11 @@
 import Button from "../../../components/Button";
 import TextField from "../../../components/TextField";
-import LawyerImage from "../../../assets/Lawyer.jpg";
+import LawyerImage from "../../../assets/Lawyer.png";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { clientSignUp } from "../../../api/client/clientAuthApi";
 import {
-  setClient,
-  setClientAuthToken,
   setLawyer,
-  setLawyerAuthToken,
+  setLawyerAuthToken
 } from "../../../constants/LocalStorage";
 import { lawyerSignUp } from "../../../api/lawyer/lawyerAuthApi";
 import Select from "../../../components/Select";

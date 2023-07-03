@@ -1,6 +1,6 @@
 import Button from "../../../components/Button";
 import TextField from "../../../components/TextField";
-import LawyerImage from "../../../assets/Lawyer.jpg";
+import LawyerImage from "../../../assets/Lawyer.png";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { UserLoginType } from "../../../types/UserAuthTypes";

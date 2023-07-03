@@ -1,6 +1,6 @@
 import Button from "../../../components/Button";
 import TextField from "../../../components/TextField";
-import LawyerImage from "../../../assets/Lawyer.jpg";
+import LawyerImage from "../../../assets/Client.png";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { clientSignUp } from "../../../api/client/clientAuthApi";
@@ -52,7 +52,7 @@ const ClientSignUp = () => {
         </div>
       </section>
       <section className="w-full overflow-y-auto h-full md:w-1/2 shadow-xl flex flex-col items-center px-20 pt-5">
-        <img src={LawyerImage} className="w-36 h-36" />
+        <img src={LawyerImage} className="w-40 h-48" />
         <div className="mt-12 mb-10 flex flex-col space-y-3">
           <div>
             <p className="font-extrabold text-xl">Hey, hello 👋</p>
