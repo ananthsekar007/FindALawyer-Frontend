@@ -156,7 +156,7 @@ const ClientSignUp = () => {
                 },
                 validate : (value) => value === password || 'Passwords must match!' 
               }}
-              id="confirmPaessword"
+              id="confirmPassword"
               label="Confirm Password"
               type="password"
             />
