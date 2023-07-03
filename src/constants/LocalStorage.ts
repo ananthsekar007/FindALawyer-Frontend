@@ -1,4 +1,5 @@
 import { Client } from "../types/Client";
+import { Lawyer } from "../types/Lawyer";
 
 const FindALawyerClient = "FindALawyerClient";
 const FindALawyerLawyer = "FindALawyerLawyer";
@@ -24,15 +25,15 @@ export const getClientAuthToken = (): string | null => {
     return localStorage.getItem(FindALawyerClientToken);
 }
 
-// export const setLawyer = (lawyer : Resident) => {
-//     localStorage.setItem(FindALawyerLawyer, JSON.stringify(lawyer));
-// }
+export const setLawyer = (lawyer : Lawyer) => {
+    localStorage.setItem(FindALawyerLawyer, JSON.stringify(lawyer));
+}
 
-// export const getLawyer = () : Resident | null => {
-//     let user = localStorage.getItem(FindALawyerLawyer);
-//     if(!user) return null; 
-//     return JSON.parse(user);
-// }
+export const getLawyer = () : Lawyer | null => {
+    let user = localStorage.getItem(FindALawyerLawyer);
+    if(!user) return null; 
+    return JSON.parse(user);
+}
 
 export const setLawyerAuthToken = (token: string) => {
     localStorage.setItem(FindALawyerLawyerToken, token);
