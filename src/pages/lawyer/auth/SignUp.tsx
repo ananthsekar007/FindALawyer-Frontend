@@ -23,8 +23,7 @@ type SignUpFormValues = {
 };
 
 const LawyerSignUp = () => {
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,

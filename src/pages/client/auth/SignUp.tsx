@@ -30,10 +30,10 @@ const ClientSignUp = () => {
   const onSignUp = async (data: SignUpFormValues) => {
     delete data.confirmPassword;
     const response = await clientSignUp(data);
-    if(!response.data) return console.log("Error");
-      setClient(response.data.client);
-      setClientAuthToken(response.data.authToken);
-      navigate("/");
+    if (!response.data) return console.log("Error");
+    setClient(response.data.client);
+    setClientAuthToken(response.data.authToken);
+    navigate("/client/home");
   };
 
   return (
@@ -154,7 +154,8 @@ const ClientSignUp = () => {
                   value: true,
                   message: "Confirm password is required!",
                 },
-                validate : (value) => value === password || 'Passwords must match!' 
+                validate: (value) =>
+                  value === password || "Passwords must match!",
               }}
               id="confirmPassword"
               label="Confirm Password"

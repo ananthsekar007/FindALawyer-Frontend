@@ -9,7 +9,6 @@ import { lawyerLogin } from "../../../api/lawyer/lawyerAuthApi";
 
 const LawyerLogin = () => {
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
