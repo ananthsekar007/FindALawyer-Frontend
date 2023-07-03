@@ -4,11 +4,12 @@ import ClientSignUp from "./pages/client/auth/SignUp";
 import ClientHome from "./pages/client/Home";
 import LawyerLogin from "./pages/lawyer/auth/Login";
 import LawyerSignUp from "./pages/lawyer/auth/SignUp";
+import Landing from "./pages/Landing";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <ClientHome />
+    element: <Landing />
   },
   {
     path: "/client/login",
