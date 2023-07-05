@@ -21,7 +21,7 @@ const ViewLawyerModal = ({
       onClose={onClose}
       center
       classNames={{
-        modal: "w-5/6 md:1/2",
+        modal: "w-5/6",
       }}
     >
       <p className="font-bold text-xl">Profile</p>
