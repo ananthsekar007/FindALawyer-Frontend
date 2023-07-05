@@ -9,6 +9,7 @@ import PrivateClientRoute from "./components/PrivateClientRoute";
 import PrivateLawyerRoute from "./components/PrivateLawyerRoute";
 import LawyerHome from "./pages/lawyer/Home";
 import ClientLawyersPage from "./pages/client/Lawyers";
+import LawyerChat from "./pages/lawyer/Chat";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,14 @@ export const router = createBrowserRouter([
       <PrivateClientRoute>
         <ClientLawyersPage />
       </PrivateClientRoute>
+    ),
+  },
+  {
+    path: "/lawyer/chat",
+    element: (
+      <PrivateLawyerRoute>
+        <LawyerChat />
+      </PrivateLawyerRoute>
     ),
   },
 ]);

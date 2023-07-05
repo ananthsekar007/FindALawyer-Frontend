@@ -5,11 +5,14 @@ import { getLawyer } from "../../constants/LocalStorage";
 import { getLawyerAppointments } from "../../api/appointment/appointmentApi";
 import { AppointmentTypes } from "../../constants/AppConstants";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const LawyerHome = () => {
   const [pendingAppointments, setPendingAppointments] = useState<Appointment[]>(
     []
   );
+
+  const navigate = useNavigate();
 
   const getPendingAppointments = async () => {
     const lawyer = getLawyer();
@@ -51,6 +54,11 @@ const LawyerHome = () => {
                     text="Chat"
                     onClick={() => {
                       console.log("clicked");
+                      navigate(`/lawyer/chat/${appointment.appointmentId}`, {
+                        state: {
+                            appointment
+                        }
+                      });
                     }}
                     className="h-fit w-16 justify-self-center"
                   />
