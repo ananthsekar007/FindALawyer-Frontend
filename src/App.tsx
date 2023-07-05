@@ -6,6 +6,9 @@ import LawyerLogin from "./pages/lawyer/auth/Login";
 import LawyerSignUp from "./pages/lawyer/auth/SignUp";
 import Landing from "./pages/Landing";
 import PrivateClientRoute from "./components/PrivateClientRoute";
+import PrivateLawyerRoute from "./components/PrivateLawyerRoute";
+import LawyerHome from "./pages/lawyer/Home";
+import ClientLawyersPage from "./pages/client/Lawyers";
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +36,22 @@ export const router = createBrowserRouter([
     element: (
       <PrivateClientRoute>
         <ClientHome />
+      </PrivateClientRoute>
+    ),
+  },
+  {
+    path: "/lawyer/home",
+    element: (
+      <PrivateLawyerRoute>
+        <LawyerHome />
+      </PrivateLawyerRoute>
+    ),
+  },
+  {
+    path: "/client/lawyers",
+    element: (
+      <PrivateClientRoute>
+        <ClientLawyersPage />
       </PrivateClientRoute>
     ),
   },
