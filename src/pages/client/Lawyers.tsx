@@ -1,44 +1,32 @@
 import { listAllLawyers } from "../../api/lawyer/lawyerApi";
 import ClientLayout from "../../components/client/ClientLayout";
-import LawyerCard, {
-  LawyerCardProps,
-} from "../../components/lawyer/LawyerCard";
-import React, { useState, useEffect } from "react";
+import LawyerCard from "../../components/lawyer/LawyerCard";
+import { useState, useEffect } from "react";
 import { LawyerWithRating } from "../../types/Lawyer";
-
-const generateDummyLawyerData = (): LawyerCardProps[] => {
-  const dummyData: LawyerCardProps[] = [];
-
-  for (let i = 1; i <= 10; i++) {
-    const lawyer: LawyerCardProps = {
-      lawyerName: `Lawyer ${i}`,
-      qualification: `Qualification ${i}`,
-      starRating: Math.floor(Math.random() * 5) + 1,
-      reviews: Math.floor(Math.random() * 100),
-      lawyerId: i,
-      lawyerLocation: `Location ${i}`,
-    };
-
-    dummyData.push(lawyer);
-  }
-
-  return dummyData;
-};
+import ViewLawyerModal from "../../components/lawyer/ViewLawyerModal";
 
 const ClientLawyersPage = () => {
   const [lawyers, setLawyers] = useState<LawyerWithRating[]>([]);
+  const [selectedLawyer, setSelectedLawyer] = useState<LawyerWithRating>();
+  const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
 
   const getAllLawyers = async () => {
     try {
-        const response = await listAllLawyers();
-        if(!response.data) {
-            console.log("Some error occured");
-        }
-        setLawyers(response.data);
+      const response = await listAllLawyers();
+      if (!response.data) {
+        console.log("Some error occured");
+      }
+      setLawyers(response.data);
+    } catch (err) {
+      console.error(err);
     }
-    catch(err) {
-        console.error(err)
-    }
+  };
+
+  const onHireLawyer = (lawyerId: number) => {};
+
+  const onViewLawyer = (lawyer: LawyerWithRating) => {
+    setSelectedLawyer(lawyer);
+    setViewModalOpen(true);
   };
 
   useEffect(() => {
@@ -57,9 +45,19 @@ const ClientLawyersPage = () => {
             reviews={lawyer.feedbacks.length}
             starRating={lawyer.averageRating}
             key={index}
+            lawyer={lawyer}
+            onHireClick={onHireLawyer}
+            onViewClick={onViewLawyer}
           />
         ))}
       </div>
+      <ViewLawyerModal
+        open={viewModalOpen}
+        onClose={() => {
+            setViewModalOpen(false);
+        }}
+        selectedLawyer={selectedLawyer}
+      />
     </ClientLayout>
   );
 };

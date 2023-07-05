@@ -2,17 +2,32 @@ import StarRating from "../StarRating";
 import LawyerProfile from "../../assets/LawyerProfile.jpg";
 import OutlinedButton from "../OutlinedButton";
 import Button from "../Button";
+import { LawyerWithRating } from "../../types/Lawyer";
 
 export interface LawyerCardProps {
-    lawyerName: string;
-    qualification: string;
-    starRating: number;
-    reviews: number;
-    lawyerId: number;
-    lawyerLocation: string;
+  lawyerName: string;
+  qualification: string;
+  starRating: number;
+  reviews: number;
+  lawyerId: number;
+  lawyerLocation: string;
+  lawyer: LawyerWithRating;
+  onViewClick: (selectedLawyer: LawyerWithRating) => void;
+  onHireClick: (lawyerId: number) => void;
 }
 
-const LawyerCard = ({lawyerLocation, lawyerName, qualification, reviews, starRating, ...rest}: LawyerCardProps) => {
+const LawyerCard = ({
+  lawyerLocation,
+  lawyerName,
+  qualification,
+  reviews,
+  starRating,
+  onHireClick,
+  onViewClick,
+  lawyer,
+  lawyerId,
+  ...rest
+}: LawyerCardProps) => {
   return (
     <div className="bg-white rounded p-10 px-20 flex flex-col items-center shadow hover:shadow-lg">
       <img src={LawyerProfile} className="w-24 h-24 rounded-3xl" />
@@ -30,8 +45,20 @@ const LawyerCard = ({lawyerLocation, lawyerName, qualification, reviews, starRat
         <p className="text-slate-400 text-sm">{reviews} reviews</p>
       </div>
       <div className="flex gap-3 w-56 mt-5">
-        <OutlinedButton text="View Profile" className="w-56" />
-        <Button text="Hire!" className="w-32" />
+        <OutlinedButton
+          text="View Profile"
+          className="w-56"
+          onClick={() => {
+            onViewClick(lawyer);
+          }}
+        />
+        <Button
+          text="Hire!"
+          className="w-32"
+          onClick={() => {
+            onHireClick(lawyerId);
+          }}
+        />
       </div>
       <p className="mt-5 font-bold text-slate-400">{lawyerLocation}</p>
     </div>
