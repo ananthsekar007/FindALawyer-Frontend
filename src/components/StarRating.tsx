@@ -1,21 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, CSSProperties } from "react";
 
 interface StarRatingProps {
-  initialRating: number;
-  onChange: (rating: number) => void;
+  initialRating?: number;
+  onChange?: (rating: number) => void;
   isEditable: boolean;
+  className?: CSSProperties;
 }
 
 const StarRating: React.FC<StarRatingProps> = ({
   initialRating,
   onChange,
   isEditable,
+  className
 }) => {
-  const [rating, setRating] = useState(initialRating);
+  const [rating, setRating] = useState(initialRating || 0);
 
   const handleRatingChange = (newRating: number) => {
     setRating(newRating);
-    onChange(newRating);
+    onChange && onChange(newRating);
   };
 
   return (
@@ -28,7 +30,7 @@ const StarRating: React.FC<StarRatingProps> = ({
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill={starValue <= rating ? "#feb400" : "lightgrey"}
-            className="w-6 h-6 cursor-pointer"
+            className={`w-6 h-6 cursor-pointer ${className}`}
             onClick={() => isEditable && handleRatingChange(starValue)}
           >
             <path
