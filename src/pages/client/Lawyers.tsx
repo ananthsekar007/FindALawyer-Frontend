@@ -4,11 +4,14 @@ import LawyerCard from "../../components/lawyer/LawyerCard";
 import { useState, useEffect } from "react";
 import { LawyerWithRating } from "../../types/Lawyer";
 import ViewLawyerModal from "../../components/lawyer/ViewLawyerModal";
+import BookAppointmentModal from "../../components/appointment/BookAppointmentModal";
 
 const ClientLawyersPage = () => {
   const [lawyers, setLawyers] = useState<LawyerWithRating[]>([]);
   const [selectedLawyer, setSelectedLawyer] = useState<LawyerWithRating>();
   const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
+  const [bookModalOpen, setBookModalOpen] = useState<boolean>(false);
+  const [selectedLawyerId, setSelectedLawyerId] = useState<number>(0);
 
   const getAllLawyers = async () => {
     try {
@@ -22,7 +25,10 @@ const ClientLawyersPage = () => {
     }
   };
 
-  const onHireLawyer = (lawyerId: number) => {};
+  const onHireLawyer = (lawyerId: number) => {
+    setSelectedLawyerId(lawyerId);
+    setBookModalOpen(true);
+  };
 
   const onViewLawyer = (lawyer: LawyerWithRating) => {
     setSelectedLawyer(lawyer);
@@ -57,6 +63,13 @@ const ClientLawyersPage = () => {
             setViewModalOpen(false);
         }}
         selectedLawyer={selectedLawyer}
+      />
+      <BookAppointmentModal
+        open={bookModalOpen}
+        lawyerId={selectedLawyerId}
+        onClose={() => {
+            setBookModalOpen(false);
+        }}
       />
     </ClientLayout>
   );
