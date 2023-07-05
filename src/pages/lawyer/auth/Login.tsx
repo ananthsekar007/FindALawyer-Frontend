@@ -21,7 +21,7 @@ const LawyerLogin = () => {
       if(!response.data) return console.log("Error");
       setLawyer(response.data.lawyer);
       setLawyerAuthToken(response.data.authToken);
-      navigate("/");
+      navigate("/lawyer/home");
     }
     catch(err) {
       console.error(err);
