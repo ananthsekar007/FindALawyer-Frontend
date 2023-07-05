@@ -8,18 +8,6 @@ const routerConfig = [
     pathname: "/lawyer/home",
     name: "Home",
   },
-  {
-    pathname: "/Products",
-    name: "Lawyers",
-  },
-  {
-    pathname: "/Contact",
-    name: "Active Cases",
-  },
-  {
-    pathname: "/History",
-    name: "Case History",
-  },
 ];
 
 interface ClientLayoutProps {
