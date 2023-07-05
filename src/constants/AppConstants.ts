@@ -5,3 +5,10 @@ export const LaywerTypes = {
     CIVIL: "CIVIL",
     CRIMINAL: "CRIMINAL"
 }
+
+export const AppointmentTypes = {
+    PENDING: "PENDING",
+    ACTIVE: "ACTIVE",
+    REJECTED: "REJECTED",
+    COMELETED: "COMPLETED"
+}
