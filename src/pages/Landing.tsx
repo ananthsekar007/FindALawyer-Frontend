@@ -26,7 +26,7 @@ const Landing = () => {
         </p>
       </div>
       <div className="flex mb-20 flex-col md:flex-row items-center space-y-5 md:justify-center md:space-x-20 md:space-y-0  mt-20">
-        <div className="bg-white rounded-lg p-10 px-20 cursor-pointer hover:shadow-lg text-center space-y-2">
+        <div className="bg-white rounded-lg p-10 px-20 cursor-pointer shadow hover:shadow-lg text-center space-y-2">
           <p className="font-bold text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-b from-blue-500 to-purple-500">
             Client
           </p>
@@ -38,7 +38,7 @@ const Landing = () => {
             text="Start!"
           />
         </div>
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg p-10 px-20 cursor-pointer hover:shadow-lg text-center space-y-2">
+        <div className="bg-white rounded-lg p-10 px-20 cursor-pointer shadow hover:shadow-lg text-center space-y-2">
           <p className="font-bold text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-b from-blue-500 to-purple-500">
             Lawyer
           </p>

@@ -6,9 +6,12 @@ interface TextFieldProps
   text: string;
 }
 
-const Button = ({ loading, text, ...rest }: TextFieldProps) => {
+const Button = ({ loading, text, className, ...rest }: TextFieldProps) => {
   return (
-    <button className="w-full bg-gradient-to-br from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 hover:scale-105 rounded-lg p-2 text-white" {...rest}>
+    <button
+      className={`w-full bg-gradient-to-br from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 hover:scale-105 rounded-lg p-2 text-white ${className}`}
+      {...rest}
+    >
       {text}
     </button>
   );
