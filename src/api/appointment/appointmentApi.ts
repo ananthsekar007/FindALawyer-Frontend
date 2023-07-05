@@ -10,5 +10,5 @@ export const getClientAppointments = (clientId: number, status: string) => {
 }
 
 export const getLawyerAppointments = (lawyerId: number, status: string) => {
-    return axiosClientInstance.get(`/appointment/client/get?clientId=${lawyerId}&status=${status}`);
+    return axiosClientInstance.get(`/appointment/lawyers/get?lawyerId=${lawyerId}&status=${status}`);
 }
