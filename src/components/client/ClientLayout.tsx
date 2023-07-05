@@ -5,21 +5,13 @@ import { clientLogout } from "../../constants/LocalStorage";
 
 const routerConfig = [
   {
-    pathname: "/",
+    pathname: "/client/home",
     name: "Home",
   },
   {
-    pathname: "/Products",
-    name: "Lawyers",
-  },
-  {
-    pathname: "/Contact",
-    name: "Active Cases",
-  },
-  {
-    pathname: "/History",
-    name: "Case History",
-  },
+    pathname: "/client/lawyers",
+    name: "Lawyers"
+  }
 ];
 
 interface ClientLayoutProps {
