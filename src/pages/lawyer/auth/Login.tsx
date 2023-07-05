@@ -43,7 +43,7 @@ const LawyerLogin = () => {
           </p>
         </div>
       </section>
-      <section className="w-full h-full md:w-1/2 shadow-xl flex flex-col items-center px-20 pt-5">
+      <section className="w-full h-full md:w-1/2 shadow-xl flex flex-col items-center px-20 pt-5 bg-white">
         <img src={LawyerImage} className="w-36 h-36" />
         <div className="mt-12 space-y-5 flex flex-col">
           <div>

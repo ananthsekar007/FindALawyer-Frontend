@@ -57,7 +57,7 @@ const LawyerSignUp = () => {
           </p>
         </div>
       </section>
-      <section className="w-full overflow-y-auto h-full md:w-1/2 shadow-xl flex flex-col items-center px-20 pt-5">
+      <section className="w-full overflow-y-auto h-full md:w-1/2 shadow-xl flex flex-col items-center px-20 pt-5 bg-white">
         <img src={LawyerImage} className="w-36 h-36" />
         <div className="mt-12 mb-10 flex flex-col space-y-3">
           <div>
