@@ -9,7 +9,7 @@ const PrivateClientRoute: React.FC<Props> = ({ children }) => {
   const [authToken, setAuthToken] = useState<string | null>(null);
 
   useLayoutEffect(() => {
-    const token = getClientAuthToken();-
+    const token = getClientAuthToken();
     setAuthToken(token);
   }, []);
 

@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import LawyerLayout from "../../components/lawyer/LawyerLayout";
 import { Appointment } from "../../types/AppointmentType";
 import Button from "../../components/Button";
 import {
-    addDoc,
-    collection,
-    onSnapshot,
-    orderBy,
-    query,
-    serverTimestamp,
-    where,
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  where,
 } from "firebase/firestore";
-import { firebaseDb } from "../../firebase/firebase-config";
+import { firebaseDb, storage } from "../../firebase/firebase-config";
 import { Chat } from "../lawyer/Chat";
-
-
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 const ClientChat = () => {
   const { state } = useLocation();
@@ -39,6 +38,16 @@ const ClientChat = () => {
     setMessage("");
   };
 
+  const chatContainerRef = useRef(null);
+
+  // Scroll to the bottom of the chat container
+  const scrollToBottom = () => {
+    if (chatContainerRef && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
   useEffect(() => {
     if (appointment && appointment.appointmentId) {
       const queryMessage = query(
@@ -48,42 +57,112 @@ const ClientChat = () => {
       );
       onSnapshot(queryMessage, (snapshot) => {
         const chats: any = snapshot.docs.map((doc) => doc.data()).reverse();
+        scrollToBottom();
         setMessages(chats);
       });
     }
   }, [appointment]);
 
   useEffect(() => {
-      if (state && state.appointment) {
-        console.log({state: state.appointment})
+    if (state && state.appointment) {
+      console.log({ state: state.appointment });
       setAppointment(state.appointment);
     }
   }, [state]);
 
+  const handleFileUpload = async (event: any) => {
+    const file = event.target.files[0];
+    console.log("Uploaded file:", file);
+    if (appointment && appointment.appointmentId) {
+      try {
+        const storageRef = ref(
+          storage,
+          `files-${appointment?.appointmentId}/${file.name}`
+        );
+
+        console.log("the ref for storage", { storageRef });
+
+        const fileUploadResponse = await uploadBytes(storageRef, file);
+        console.log({ fileUploadResponse });
+
+        const url = await getDownloadURL(fileUploadResponse.ref);
+        setMessage(url);
+      } catch (err) {
+        console.log({ err });
+      }
+    } else {
+      console.log("Error");
+    }
+  };
+
   return (
     <LawyerLayout>
       <div className="flex flex-col items-center w-full mb-20">
-        <div className="w-11/12 h-12 rounded-t-md p-3 bg-white shadow">
-          <p className="font-semibold text-lg">{appointment?.lawyer.name}</p>
+        <div className="w-11/12 h-12 rounded-t-md p-1 bg-white shadow">
+          <div className="flex w-full justify-between px-10">
+            <p className="font-semibold text-lg">{appointment?.lawyer.name}</p>
+            <div className="w-10 h-10 bg-slate-200 flex justify-center rounded-full shadow hover:shadow-md items-center cursor-pointer">
+              <label htmlFor="file-upload" className="cursor-pointer">
+                <i className="fa-solid fa-paperclip"></i>
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleFileUpload}
+              />
+            </div>
+          </div>
         </div>
-        <div className="w-11/12 h-80 bg-slate-100 shadow p-5 flex flex-col overflow-auto space-y-5">
+        <div
+          ref={chatContainerRef}
+          className="w-11/12 h-80 bg-slate-100 shadow p-5 flex flex-col overflow-auto space-y-5"
+        >
           {messages.map((chat, index) => {
             if (chat.type === "LAWYER") {
               return (
                 <div
                   key={index}
-                  className="bg-white max-w-xs rounded-xl shadow self-start p-5"
+                  className="bg-white max-w-xs md:max-w-md lg:max-w-lg rounded-xl shadow self-start p-5"
                 >
-                  {chat.message}
+                  <div style={{ overflow: "hidden" }}>
+                    {chat.message.startsWith("https") ? (
+                      <a
+                        href={chat.message}
+                        style={{ overflowWrap: "break-word" }}
+                        target="_blank"
+                      >
+                        {chat.message}
+                      </a>
+                    ) : (
+                      <p style={{ overflowWrap: "break-word" }}>
+                        {chat.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               );
             } else {
               return (
                 <div
                   key={index}
-                  className="self-end p-5 max-w-xs rounded-xl shadow text-white bg-gradient-to-br from-blue-500 to-purple-500"
+                  className="self-end p-5 max-w-xs md:max-w-md lg:max-w-lg rounded-xl shadow text-white bg-gradient-to-br from-blue-500 to-purple-500"
                 >
-                  {chat.message}
+                  <div style={{ overflow: "hidden" }}>
+                    {chat.message.startsWith("https") ? (
+                      <a
+                        href={chat.message}
+                        style={{ overflowWrap: "break-word" }}
+                        target="_blank"
+                      >
+                        {chat.message}
+                      </a>
+                    ) : (
+                      <p style={{ overflowWrap: "break-word" }}>
+                        {chat.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               );
             }

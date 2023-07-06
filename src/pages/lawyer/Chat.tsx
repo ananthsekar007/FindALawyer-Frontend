@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import LawyerLayout from "../../components/lawyer/LawyerLayout";
 import { Appointment } from "../../types/AppointmentType";
@@ -13,7 +13,6 @@ import {
   where,
 } from "firebase/firestore";
 import { firebaseDb } from "../../firebase/firebase-config";
-
 
 export interface Chat {
   type: string;
@@ -44,6 +43,16 @@ const LawyerChat = () => {
     setMessage("");
   };
 
+  const chatContainerRef = useRef(null);
+
+  // Scroll to the bottom of the chat container
+  const scrollToBottom = () => {
+    if(chatContainerRef && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
+
+
   useEffect(() => {
     if (appointment && appointment.appointmentId) {
       const queryMessage = query(
@@ -53,6 +62,7 @@ const LawyerChat = () => {
       );
       onSnapshot(queryMessage, (snapshot) => {
         const chats: any = snapshot.docs.map((doc) => doc.data()).reverse();
+        scrollToBottom();
         setMessages(chats);
       });
     }
@@ -70,24 +80,52 @@ const LawyerChat = () => {
         <div className="w-11/12 h-12 rounded-t-md p-3 bg-white shadow">
           <p className="font-semibold text-lg">{appointment?.client.name}</p>
         </div>
-        <div className="w-11/12 h-80 bg-slate-100 shadow p-5 flex flex-col overflow-auto space-y-5">
+        <div ref={chatContainerRef} className="w-11/12 h-80 bg-slate-100 shadow p-5 flex flex-col overflow-auto space-y-5">
           {messages.map((chat, index) => {
             if (chat.type === "CLIENT") {
               return (
                 <div
                   key={index}
-                  className="bg-white max-w-xs rounded-xl shadow self-start p-5"
+                  className="bg-white max-w-xs md:max-w-md lg:max-w-lg rounded-xl shadow self-start p-5"
                 >
-                  {chat.message}
+                  <div style={{ overflow: "hidden" }}>
+                    {chat.message.startsWith("https") ? (
+                      <a
+                        href={chat.message}
+                        style={{ overflowWrap: "break-word" }}
+                        target="_blank"
+                      >
+                        {chat.message}
+                      </a>
+                    ) : (
+                      <p style={{ overflowWrap: "break-word" }}>
+                        {chat.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               );
             } else {
               return (
                 <div
                   key={index}
-                  className="self-end p-5 max-w-xs rounded-xl shadow text-white bg-gradient-to-br from-blue-500 to-purple-500"
+                  className="self-end p-5 max-w-xs md:max-w-md lg:max-w-lg rounded-xl shadow text-white bg-gradient-to-br from-blue-500 to-purple-500"
                 >
-                  {chat.message}
+                  <div style={{ overflow: "hidden" }}>
+                    {chat.message.startsWith("https") ? (
+                      <a
+                        href={chat.message}
+                        style={{ overflowWrap: "break-word" }}
+                        target="_blank"
+                      >
+                        {chat.message}
+                      </a>
+                    ) : (
+                      <p style={{ overflowWrap: "break-word" }}>
+                        {chat.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               );
             }
