@@ -2,9 +2,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ClientImage from "../assets/Client.png";
 import LawyerImage from "../assets/Lawyer.png";
 import Button from "../components/Button";
+import { useEffect } from "react";
 
 const Landing = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "white";
+  }, [])
 
   return (
     <>
