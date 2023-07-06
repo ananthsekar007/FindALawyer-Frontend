@@ -1,28 +1,23 @@
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import LawyerLayout from "../../components/lawyer/LawyerLayout";
 import { Appointment } from "../../types/AppointmentType";
 import Button from "../../components/Button";
 import {
-  addDoc,
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  serverTimestamp,
-  where,
+    addDoc,
+    collection,
+    onSnapshot,
+    orderBy,
+    query,
+    serverTimestamp,
+    where,
 } from "firebase/firestore";
 import { firebaseDb } from "../../firebase/firebase-config";
+import { Chat } from "../lawyer/Chat";
 
 
-export interface Chat {
-  type: string;
-  message: string;
-  appointmentId: number;
-  createdAt: any;
-}
 
-const LawyerChat = () => {
+const ClientChat = () => {
   const { state } = useLocation();
   const [appointment, setAppointment] = useState<Appointment>();
   const [message, setMessage] = useState<string>("");
@@ -36,7 +31,7 @@ const LawyerChat = () => {
 
     await addDoc(chatsRef, {
       message,
-      type: "LAWYER",
+      type: "CLIENT",
       createdAt: serverTimestamp(),
       appointmentId: appointment?.appointmentId,
     });
@@ -59,7 +54,8 @@ const LawyerChat = () => {
   }, [appointment]);
 
   useEffect(() => {
-    if (state && state.appointment) {
+      if (state && state.appointment) {
+        console.log({state: state.appointment})
       setAppointment(state.appointment);
     }
   }, [state]);
@@ -68,11 +64,11 @@ const LawyerChat = () => {
     <LawyerLayout>
       <div className="flex flex-col items-center w-full mb-20">
         <div className="w-11/12 h-12 rounded-t-md p-3 bg-white shadow">
-          <p className="font-semibold text-lg">{appointment?.client.name}</p>
+          <p className="font-semibold text-lg">{appointment?.lawyer.name}</p>
         </div>
         <div className="w-11/12 h-80 bg-slate-100 shadow p-5 flex flex-col overflow-auto space-y-5">
           {messages.map((chat, index) => {
-            if (chat.type === "CLIENT") {
+            if (chat.type === "LAWYER") {
               return (
                 <div
                   key={index}
@@ -115,4 +111,4 @@ const LawyerChat = () => {
   );
 };
 
-export default LawyerChat;
+export default ClientChat;

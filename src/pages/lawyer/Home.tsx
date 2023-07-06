@@ -54,7 +54,7 @@ const LawyerHome = () => {
                     text="Chat"
                     onClick={() => {
                       console.log("clicked");
-                      navigate(`/lawyer/chat/${appointment.appointmentId}`, {
+                      navigate(`/lawyer/chat`, {
                         state: {
                             appointment
                         }

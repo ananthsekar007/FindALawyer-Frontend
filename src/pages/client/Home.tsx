@@ -4,11 +4,14 @@ import { Appointment } from "../../types/AppointmentType";
 import { getClient } from "../../constants/LocalStorage";
 import { getClientAppointments } from "../../api/appointment/appointmentApi";
 import { AppointmentTypes } from "../../constants/AppConstants";
+import { useNavigate } from "react-router-dom";
 
 const ClientHome = () => {
   const [pendingAppointments, setPendingAppointments] = useState<Appointment[]>(
     []
   );
+
+  const navigate = useNavigate();
 
   const getPendingAppointments = async () => {
     const client = getClient();
@@ -40,9 +43,22 @@ const ClientHome = () => {
             {pendingAppointments.length > 0 &&
               pendingAppointments.map((appointment, index) => (
                 <>
-                  <p className="justify-self-start h-12">{appointment.lawyer.name}</p>
-                  <p className="col-span-2 h-12">{appointment.caseDescription}</p>
-                  <div className="bg-yellow-600  text-white rounded-xl h-fit p-1 px-2 justify-self-center">
+                  <p className="justify-self-start h-12">
+                    {appointment.lawyer.name}
+                  </p>
+                  <p className="col-span-2 h-12">
+                    {appointment.caseDescription}
+                  </p>
+                  <div
+                    className="bg-yellow-600 cursor-pointer  text-white rounded-xl h-fit p-1 px-2 justify-self-center"
+                    onClick={() => {
+                      navigate("/client/chat", {
+                        state: {
+                          appointment,
+                        },
+                      });
+                    }}
+                  >
                     {appointment.status}
                   </div>
                 </>
