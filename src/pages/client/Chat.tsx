@@ -21,6 +21,7 @@ const ClientChat = () => {
   const [appointment, setAppointment] = useState<Appointment>();
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<Chat[]>([]);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const chatsRef = collection(firebaseDb, "chats");
 
@@ -65,7 +66,7 @@ const ClientChat = () => {
 
   useEffect(() => {
     if (state && state.appointment) {
-      console.log({ state: state.appointment });
+      setIsCompleted(state.completed);
       setAppointment(state.appointment);
     }
   }, [state]);
@@ -102,7 +103,12 @@ const ClientChat = () => {
           <div className="flex w-full justify-between px-10">
             <p className="font-semibold text-lg">{appointment?.lawyer.name}</p>
             <div className="w-10 h-10 bg-slate-200 flex justify-center rounded-full shadow hover:shadow-md items-center cursor-pointer">
-              <label htmlFor="file-upload" className="cursor-pointer">
+              <label
+                htmlFor="file-upload"
+                className={`${
+                  isCompleted ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
+              >
                 <i className="fa-solid fa-paperclip"></i>
               </label>
               <input
@@ -110,6 +116,7 @@ const ClientChat = () => {
                 type="file"
                 style={{ display: "none" }}
                 onChange={handleFileUpload}
+                disabled={isCompleted}
               />
             </div>
           </div>
@@ -177,12 +184,13 @@ const ClientChat = () => {
               id={"messageLawyer"}
               name={"message"}
               value={message}
+              disabled={isCompleted}
               onChange={(e) => {
                 setMessage(e.target.value);
               }}
               className="p-2 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 col-span-4"
             />
-            <Button text="Send" type="submit" />
+            <Button disabled={isCompleted} text="Send" type="submit" className="disabled:hover:cursor-not-allowed" />
           </form>
         </div>
       </div>
