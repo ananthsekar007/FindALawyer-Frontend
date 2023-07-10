@@ -14,6 +14,10 @@ import {
 } from "firebase/firestore";
 import { firebaseDb, storage } from "../../firebase/firebase-config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { Payment } from "../../types/PaymentTypes";
+import { getPaymentsForLawyers } from "../../api/payments/paymentsApi";
+import RequestMoneyModal from "../../components/lawyer/RequestMoneyModal";
+import { PaymentStatusColors } from "../../constants/AppConstants";
 
 export interface Chat {
   type: string;
@@ -28,6 +32,8 @@ const LawyerChat = () => {
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<Chat[]>([]);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [payments, setPayments] = useState<Payment[]>([]);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const chatsRef = collection(firebaseDb, "chats");
 
@@ -80,6 +86,13 @@ const LawyerChat = () => {
     }
   };
 
+  const getPayments = async (appointmentId?: number) => {
+    if (!appointmentId) return;
+    const response = await getPaymentsForLawyers(appointmentId);
+    if (!response.data) return;
+    setPayments(response.data);
+  };
+
   useEffect(() => {
     if (appointment && appointment.appointmentId) {
       const queryMessage = query(
@@ -92,6 +105,7 @@ const LawyerChat = () => {
         scrollToBottom();
         setMessages(chats);
       });
+      getPayments(appointment.appointmentId);
     }
   }, [appointment]);
 
@@ -216,72 +230,57 @@ const LawyerChat = () => {
                   <th scope="col" className="px-6 py-3">
                     Status
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    <span className="sr-only">Edit</span>
-                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Apple MacBook Pro 17"
-                  </th>
-                  <td className="px-6 py-4">$2999</td>
-                  <td className="px-6 py-4">Silver</td>
-                  <td className="px-6 py-4 text-right">
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                {payments &&
+                  payments.length > 0 &&
+                  payments.map((payment, index) => (
+                    <tr
+                      key={index}
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
-                      Delete
-                    </a>
-                  </td>
-                </tr>
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Microsoft Surface Pro
-                  </th>
-                  <td className="px-6 py-4">$1999</td>
-                  <td className="px-6 py-4">White</td>
-                  <td className="px-6 py-4 text-right">
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </td>
-                </tr>
-                <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    Magic Mouse 2
-                  </th>
-                  <td className="px-6 py-4">$99</td>
-                  <td className="px-6 py-4">Black</td>
-                  <td className="px-6 py-4 text-right">
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                    >
-                      Delete
-                    </a>
-                  </td>
-                </tr>
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {payment?.appointment?.client?.name || "Ananth $"}
+                      </th>
+                      <td className="px-6 py-4"> <b className="font-bold">Rs.</b> {payment.amount}</td>
+                      <td className="px-6 py-4">
+                        <p
+                          className={`${
+                            (PaymentStatusColors as any)[payment.status]
+                          } w-20 p-2 rounded-2xl text-white text-center `}
+                        >
+                          {payment.status}
+                        </p>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
-            <Button text="Request Payment" className="mt-10 w-fit self-center" />
+          <Button
+            text="Request Payment"
+            className="mt-10 w-10 self-center"
+            onClick={() => {
+              setModalOpen(true);
+            }}
+          />
         </div>
       </div>
+      <RequestMoneyModal
+        open={modalOpen}
+        appointmentId={appointment?.appointmentId}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        onSuccess={() => {
+          getPayments(appointment?.appointmentId);
+          setModalOpen(false);
+        }}
+      />
     </LawyerLayout>
   );
 };

@@ -12,3 +12,13 @@ export const AppointmentTypes = {
     REJECTED: "REJECTED",
     COMPELETED: "COMPLETED"
 }
+
+export const PaymentTypes = {
+    PENDING: "PENDING",
+    PAID: "PAID"
+}
+
+export const PaymentStatusColors = {
+    PENDING: "bg-yellow-600",
+    PAID: "bg-green-600"
+}
