@@ -20,7 +20,6 @@
 
 body {
   height: 100%;
-  @apply bg-purple-50;
 }
 
 ::-webkit-scrollbar {
