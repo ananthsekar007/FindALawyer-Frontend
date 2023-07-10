@@ -46,7 +46,7 @@ function PendingLawyerAppointments({
 
   return (
     <>
-      <p className="font-semibold text-start">Pending Appointments</p>
+      <p className="font-semibold text-center">Pending Appointments</p>
       <div className="w-full h-36 md:h-44 bg-slate-100 rounded mt-3 grid grid-cols-4 text-sm p-3 overflow-y-scroll">
         <p className="font-semibold">Name</p>
         <p className="col-span-2 font-semibold ">Description</p>
