@@ -22,7 +22,7 @@ function ActiveAppointments({ activeAppointments }: ActiveAppointmentProps) {
               <p className="justify-self-start h-12">
                 {appointment.lawyer.name}
               </p>
-              <p className="col-span-2 h-12">{appointment.caseDescription}</p>
+              <p className="col-span-2 min-h-max">{appointment.caseDescription}</p>
               <div
                 className="bg-green-600 w-20 text-center cursor-pointer  text-white rounded-xl h-fit p-1 px-2 justify-self-center"
                 onClick={() => {
