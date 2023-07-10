@@ -72,7 +72,13 @@ function PendingAppointments({
             Are you sure you want to cancel the appointment?
           </p>
           <div className="flex  gap-3 mt-5 justify-center md:justify-end">
-            <OutlinedButton text="Discard" className="w-fit" />
+            <OutlinedButton
+              text="Discard"
+              className="w-fit"
+              onClick={() => {
+                setCancelModalOpen(false);
+              }}
+            />
             <Button
               text="Cancel"
               className="w-fit"
