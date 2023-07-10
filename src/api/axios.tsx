@@ -4,7 +4,6 @@ import {
   getClientAuthToken,
   getLawyerAuthToken,
 } from "../constants/LocalStorage";
-// import { getToken } from '../hooks/useToken';
 
 const axiosClientInstance = axios.create({
   baseURL: API_BASE_URL,
