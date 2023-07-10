@@ -101,7 +101,7 @@ const ClientChat = () => {
       <div className="flex flex-col items-center w-full mb-20">
         <div className="w-11/12 h-12 rounded-t-md p-1 bg-white shadow">
           <div className="flex w-full justify-between px-10">
-            <p className="font-semibold text-lg">{appointment?.lawyer.name}</p>
+            <p className="font-semibold text-lg">{appointment?.lawyer.name} {isCompleted && ' - Chat History'}</p>
             <div className="w-10 h-10 bg-slate-200 flex justify-center rounded-full shadow hover:shadow-md items-center cursor-pointer">
               <label
                 htmlFor="file-upload"
