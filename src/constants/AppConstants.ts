@@ -10,5 +10,5 @@ export const AppointmentTypes = {
     PENDING: "PENDING",
     ACTIVE: "ACTIVE",
     REJECTED: "REJECTED",
-    COMELETED: "COMPLETED"
+    COMPELETED: "COMPLETED"
 }
