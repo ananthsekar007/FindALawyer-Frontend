@@ -4,6 +4,7 @@ import OutlinedButton from "../OutlinedButton";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
 import { completeAppointmentForLawyer } from "../../api/appointment/appointmentApi";
+import { showErrorMessage, showSuccessMessage } from "../Toast";
 
 interface CompleteAppointmentModalProps {
   open: boolean;
@@ -18,13 +19,22 @@ function CompleteAppointmentModalForLawyer(
   const [loading, setLoading] = useState<boolean>(false);
 
   const completeAppointment = async () => {
-    if (!props.appointmentId) return;
-    setLoading(true);
-    const response = await completeAppointmentForLawyer(props.appointmentId);
-    setLoading(false);
-    if (!response.data) return;
-    props.onClose();
-    navigate("/lawyer/home");
+    try {
+      if (!props.appointmentId) return;
+      setLoading(true);
+      const response = await completeAppointmentForLawyer(props.appointmentId);
+      showSuccessMessage(response.data.response);
+      navigate("/lawyer/home");
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setLoading(false);
+      props.onClose();
+    }
   };
 
   return (

@@ -5,6 +5,7 @@ import Button from "../Button";
 import Modal from "react-responsive-modal";
 import { updateAppointmentsForLawyer } from "../../api/appointment/appointmentApi";
 import { AppointmentTypes } from "../../constants/AppConstants";
+import { showErrorMessage, showSuccessMessage } from "../Toast";
 
 interface PendingLawyerAppointmentProps {
   pendingAppointments: Appointment[];
@@ -21,27 +22,45 @@ function PendingLawyerAppointments({
   const [currentAppointment, setCurrentAppointment] = useState<Appointment>();
 
   const rejectedAppointment = async (appointmentId: number) => {
-    setRejectLoading(true);
-    const response = await updateAppointmentsForLawyer(
-      appointmentId,
-      AppointmentTypes.REJECTED
-    );
-    setRejectLoading(false);
-    setModalOpen(false);
-    if (!response.data) return;
-    onSuccess();
+    try {
+      setRejectLoading(true);
+      const response = await updateAppointmentsForLawyer(
+        appointmentId,
+        AppointmentTypes.REJECTED
+      );
+      showSuccessMessage(response.data.response);
+      onSuccess();
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setRejectLoading(false);
+      setModalOpen(false);
+    }
   };
 
   const approveAppointment = async (appointmentId: number) => {
-    setConfimLoading(true);
-    const response = await updateAppointmentsForLawyer(
-      appointmentId,
-      AppointmentTypes.ACTIVE
-    );
-    setConfimLoading(false);
-    setModalOpen(false);
-    if (!response.data) return;
-    onSuccess();
+    try {
+      setConfimLoading(true);
+      const response = await updateAppointmentsForLawyer(
+        appointmentId,
+        AppointmentTypes.ACTIVE
+      );
+      showSuccessMessage(response.data.response);
+      onSuccess();
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setConfimLoading(false);
+      setModalOpen(false);
+    }
   };
 
   return (
