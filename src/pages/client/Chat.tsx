@@ -26,6 +26,7 @@ import {
   updatePaymentOnSuccess,
 } from "../../api/payments/paymentsApi";
 import CompleteAppointmentModalForClient from "../../components/client/CompleteAppointmentModal";
+import AddRatingModal from "../../components/client/AddRatingModal";
 
 const ClientChat = () => {
   const { state } = useLocation();
@@ -35,6 +36,7 @@ const ClientChat = () => {
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [rateModalOpen, setRateModalOpen] = useState<boolean>(false);
 
   const chatsRef = collection(firebaseDb, "chats");
 
@@ -188,7 +190,7 @@ const ClientChat = () => {
                   disabled={isCompleted}
                 />
               </div>
-              {!isCompleted && (
+              {!isCompleted ? (
                 <button
                   className="rounded-full bg-red-500 p-2 w-10 shadow hover:shadow-lg"
                   onClick={() => {
@@ -196,6 +198,15 @@ const ClientChat = () => {
                   }}
                 >
                   <i className="fas fa-times text-white"></i>
+                </button>
+              ) : (
+                <button
+                  className="rounded-full bg-slate-50 p-2 w-10 shadow hover:shadow-lg"
+                  onClick={() => {
+                    setRateModalOpen(true);
+                  }}
+                >
+                  <i className="fa-solid fa-star text-yellow-500"></i>
                 </button>
               )}
             </div>
@@ -345,6 +356,14 @@ const ClientChat = () => {
           setModalOpen(false);
         }}
         appointmentId={appointment?.appointmentId}
+      />
+      <AddRatingModal 
+        open={rateModalOpen}
+        onClose={() => {
+          setRateModalOpen(false);
+        }}
+        lawyerId={appointment?.lawyerId}
+        clientId={appointment?.clientId}
       />
     </LawyerLayout>
   );
