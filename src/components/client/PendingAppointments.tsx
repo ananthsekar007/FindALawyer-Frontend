@@ -5,6 +5,7 @@ import OutlinedButton from "../OutlinedButton";
 import Button from "../Button";
 import { updateAppointmentsForClient } from "../../api/appointment/appointmentApi";
 import { AppointmentTypes } from "../../constants/AppConstants";
+import { showErrorMessage, showSuccessMessage } from "../Toast";
 
 interface PendingAppointmentProps {
   pendingAppointments: Appointment[];
@@ -20,15 +21,24 @@ function PendingAppointments({
   const [currentAppointment, setCurrentAppointment] = useState<Appointment>();
 
   const cancelAppointment = async (appointmentId: number) => {
-    setloading(true);
-    const response = await updateAppointmentsForClient(
-      appointmentId,
-      AppointmentTypes.REJECTED
-    );
-    setloading(false);
-    setCancelModalOpen(false);
-    if (!response.data) return;
-    onCancelSuccess();
+    try {
+      setloading(true);
+      const response = await updateAppointmentsForClient(
+        appointmentId,
+        AppointmentTypes.REJECTED
+      );
+      showSuccessMessage(response.data.response);
+      onCancelSuccess();
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setloading(false);
+      setCancelModalOpen(false);
+    }
   };
 
   return (
@@ -44,7 +54,9 @@ function PendingAppointments({
               <p className="justify-self-start h-12">
                 {appointment.lawyer.name}
               </p>
-              <p className="col-span-2 min-h-max">{appointment.caseDescription}</p>
+              <p className="col-span-2 min-h-max">
+                {appointment.caseDescription}
+              </p>
               <div
                 className="bg-yellow-600 w-20 text-center cursor-pointer  text-white rounded-xl h-fit p-1 px-2 justify-self-center"
                 onClick={() => {

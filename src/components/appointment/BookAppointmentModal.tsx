@@ -4,6 +4,8 @@ import TextField from "../TextField";
 import Button from "../Button";
 import { getClient } from "../../constants/LocalStorage";
 import { bookAppointment } from "../../api/appointment/appointmentApi";
+import { showErrorMessage, showSuccessMessage } from "../Toast";
+import { useState } from "react";
 
 interface BookAppointmentProps {
   open: boolean;
@@ -17,7 +19,13 @@ export type BookingFormData = {
   clientId: number;
 };
 
-const BookAppointmentModal = ({ onClose, open, lawyerId }: BookAppointmentProps) => {
+const BookAppointmentModal = ({
+  onClose,
+  open,
+  lawyerId,
+}: BookAppointmentProps) => {
+
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -25,14 +33,24 @@ const BookAppointmentModal = ({ onClose, open, lawyerId }: BookAppointmentProps)
   } = useForm<BookingFormData>();
 
   const onBookingAppointment = async (data: BookingFormData) => {
-    const currentClient = getClient();
-    if(!currentClient) return;
-    data.clientId = currentClient.clientId;
-    data.lawyerId = lawyerId;
-    const bookingResponse = await bookAppointment(data);
-    if(!bookingResponse.data) return;
-    alert(bookingResponse.data);
-    onClose();
+    try {
+      const currentClient = getClient();
+      if (!currentClient) return;
+      data.clientId = currentClient.clientId;
+      data.lawyerId = lawyerId;
+      setLoading(true);
+      const bookingResponse = await bookAppointment(data);
+      showSuccessMessage(bookingResponse.data.response);
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setLoading(true);
+      onClose();
+    }
   };
 
   return (
@@ -45,7 +63,10 @@ const BookAppointmentModal = ({ onClose, open, lawyerId }: BookAppointmentProps)
       }}
     >
       <p className="font-bold">Book Appointment</p>
-      <form onSubmit={handleSubmit(onBookingAppointment)} className="mt-5 space-y-10 text-center">
+      <form
+        onSubmit={handleSubmit(onBookingAppointment)}
+        className="mt-5 space-y-10 text-center"
+      >
         <TextField
           label="Enter the case description"
           name="caseDescription"
@@ -60,7 +81,12 @@ const BookAppointmentModal = ({ onClose, open, lawyerId }: BookAppointmentProps)
             },
           }}
         />
-        <Button text="Book Appointment" className="w-full md:w-2/6" type="submit" />
+        <Button
+          text="Book Appointment"
+          className="w-full md:w-2/6"
+          type="submit"
+          loading={loading}
+        />
       </form>
     </Modal>
   );

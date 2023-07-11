@@ -91,7 +91,6 @@ const LawyerChat = () => {
   const getPayments = async (appointmentId?: number) => {
     if (!appointmentId) return;
     const response = await getPaymentsForLawyers(appointmentId);
-    if (!response.data) return;
     setPayments(response.data);
   };
 

@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import Button from "../Button";
 import { RateLawyersBody, rateLawyers } from "../../api/lawyer/lawyerApi";
 import { AxiosError } from "axios";
+import { showErrorMessage, showSuccessMessage } from "../Toast";
 
 interface AddRatingModalProps {
   open: boolean;
@@ -36,17 +37,19 @@ function AddRatingModal(props: AddRatingModalProps) {
       ratingValue: rating,
       remarks: data.remarks,
     };
-    setLoading(true);
     try {
-        const response = await rateLawyers(body);
-        if (!response.data) return;
-    }
-    catch(e : any) {
-        console.log("error", {e: e.response.data});
-    }
-    finally {
-        setLoading(false);
-        props.onClose();
+      setLoading(true);
+      const response = await rateLawyers(body);
+      showSuccessMessage(response.data.response);
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setLoading(false);
+      props.onClose();
     }
   };
 
