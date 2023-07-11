@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { clientSignUp } from "../../../api/client/clientAuthApi";
 import { setClient, setClientAuthToken } from "../../../constants/LocalStorage";
+import { useState } from "react";
+import { showErrorMessage } from "../../../components/Toast";
 
 type SignUpFormValues = {
   name: string;
@@ -17,6 +19,7 @@ type SignUpFormValues = {
 
 const ClientSignUp = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -28,12 +31,22 @@ const ClientSignUp = () => {
   const password = watch("password");
 
   const onSignUp = async (data: SignUpFormValues) => {
-    delete data.confirmPassword;
-    const response = await clientSignUp(data);
-    if (!response.data) return console.log("Error");
-    setClient(response.data.client);
-    setClientAuthToken(response.data.authToken);
-    navigate("/client/home");
+    try {
+      delete data.confirmPassword;
+      setLoading(true);
+      const response = await clientSignUp(data);
+      setClient(response.data.client);
+      setClientAuthToken(response.data.authToken);
+      navigate("/client/home");
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

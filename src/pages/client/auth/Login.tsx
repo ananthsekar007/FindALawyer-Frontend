@@ -6,9 +6,12 @@ import { useForm } from "react-hook-form";
 import { UserLoginType } from "../../../types/UserAuthTypes";
 import { clientLogin } from "../../../api/client/clientAuthApi";
 import { setClient, setClientAuthToken } from "../../../constants/LocalStorage";
+import { useState } from "react";
+import { showErrorMessage } from "../../../components/Toast";
 
 const ClientLogin = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -18,16 +21,21 @@ const ClientLogin = () => {
 
   const onLogin = async (data: UserLoginType) => {
     try {
+      setLoading(true);
       const response = await clientLogin(data);
-      if(!response.data) return console.log("Error");
       setClient(response.data.client);
       setClientAuthToken(response.data.authToken);
       navigate("/client/home");
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    } finally {
+      setLoading(false);
     }
-    catch(err) {
-      console.error(err);
-    }
-  }
+  };
 
   return (
     <div className="flex w-full h-full md:h-screen">
@@ -86,7 +94,7 @@ const ClientLogin = () => {
                 },
               }}
             />
-            <Button type="submit" text="Login" />
+            <Button type="submit" loading={loading} text="Login" />
           </form>
           <p
             className="text-xs cursor-pointer self-end"
