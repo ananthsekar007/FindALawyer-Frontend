@@ -12,8 +12,7 @@ interface ViewLawyerModalProps {
 const ViewLawyerModal = ({
   open,
   onClose,
-  selectedLawyer,
-  ...rest
+  selectedLawyer
 }: ViewLawyerModalProps) => {
   return (
     <Modal
@@ -57,7 +56,7 @@ const ViewLawyerModal = ({
         </div>
         <div id="ratings" className="h-32 bg-slate-100 w-full mt-5 p-6 overflow-auto">
             {
-                selectedLawyer?.feedbacks.map((feedback, index) => (
+                selectedLawyer?.feedbacks.map((feedback) => (
                     <div>
                         <div className="flex space-x-3">
                         <p className="font-semibold">{feedback.client.name}</p>

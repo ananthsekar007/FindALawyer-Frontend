@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Appointment } from "../../types/AppointmentType";
 import OutlinedButton from "../OutlinedButton";
 import Button from "../Button";
@@ -52,7 +52,7 @@ function PendingLawyerAppointments({
         <p className="col-span-2 font-semibold ">Description</p>
         <p className="font-semibold justify-self-center mb-6">Action</p>
         {pendingAppointments.length > 0 &&
-          pendingAppointments.map((appointment, index) => (
+          pendingAppointments.map((appointment) => (
             <>
               <p className="justify-self-start h-12">
                 {appointment.client.name}

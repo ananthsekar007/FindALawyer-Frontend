@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { Appointment } from "../../types/AppointmentType";
 import { useNavigate } from "react-router-dom";
 

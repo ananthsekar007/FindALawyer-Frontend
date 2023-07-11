@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal } from "react-responsive-modal";
 import { useForm } from "react-hook-form";
 import TextField from "../TextField";

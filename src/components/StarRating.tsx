@@ -1,10 +1,10 @@
-import React, { useState, CSSProperties } from "react";
+import React, { useState } from "react";
 
 interface StarRatingProps {
   initialRating?: number;
   onChange?: (rating: number) => void;
   isEditable: boolean;
-  className?: CSSProperties;
+  className?: string;
 }
 
 const StarRating: React.FC<StarRatingProps> = ({

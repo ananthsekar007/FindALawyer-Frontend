@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 
 interface OutlinedButtonProps
   extends Partial<React.ButtonHTMLAttributes<HTMLButtonElement>> {

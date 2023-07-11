@@ -22,9 +22,7 @@ const Select = ({
   options,
   validationSchema,
   register,
-  name,
-  errors,
-  ...rest
+  name
 }: SelectProps) => {
   useEffect(() => {
     console.log("inside select useEffect", name);

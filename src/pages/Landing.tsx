@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ClientImage from "../assets/Client.png";
 import LawyerImage from "../assets/Lawyer.png";
 import Button from "../components/Button";

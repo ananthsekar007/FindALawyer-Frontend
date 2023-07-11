@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Modal from "react-responsive-modal";
 import OutlinedButton from "../OutlinedButton";
 import Button from "../Button";
 import { useNavigate } from "react-router-dom";
-import { completeAppointmentForClient, completeAppointmentForLawyer } from "../../api/appointment/appointmentApi";
+import { completeAppointmentForLawyer } from "../../api/appointment/appointmentApi";
 
 interface CompleteAppointmentModalProps {
   open: boolean;

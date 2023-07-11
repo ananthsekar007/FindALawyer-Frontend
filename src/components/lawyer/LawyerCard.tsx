@@ -25,8 +25,7 @@ const LawyerCard = ({
   onHireClick,
   onViewClick,
   lawyer,
-  lawyerId,
-  ...rest
+  lawyerId
 }: LawyerCardProps) => {
   return (
     <div className="bg-white rounded p-10 px-20 flex flex-col items-center shadow hover:shadow-lg">

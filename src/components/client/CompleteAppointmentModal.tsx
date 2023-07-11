@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Modal from "react-responsive-modal";
 import OutlinedButton from "../OutlinedButton";
 import Button from "../Button";
