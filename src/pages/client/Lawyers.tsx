@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { LawyerWithRating } from "../../types/Lawyer";
 import ViewLawyerModal from "../../components/lawyer/ViewLawyerModal";
 import BookAppointmentModal from "../../components/appointment/BookAppointmentModal";
+import Loader from "../../components/Loader";
 
 const ClientLawyersPage = () => {
   const [lawyers, setLawyers] = useState<LawyerWithRating[]>([]);
@@ -12,13 +13,17 @@ const ClientLawyersPage = () => {
   const [viewModalOpen, setViewModalOpen] = useState<boolean>(false);
   const [bookModalOpen, setBookModalOpen] = useState<boolean>(false);
   const [selectedLawyerId, setSelectedLawyerId] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getAllLawyers = async () => {
     try {
+      setLoading(true);
       const response = await listAllLawyers();
       setLawyers(response.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,6 +43,7 @@ const ClientLawyersPage = () => {
 
   return (
     <ClientLayout>
+      {loading && <Loader />}
       <div className="grid gap-10 mt-10 md:grid-cols-2 lg:grid-cols-3">
         {lawyers.map((lawyer, index) => (
           <LawyerCard
@@ -57,7 +63,7 @@ const ClientLawyersPage = () => {
       <ViewLawyerModal
         open={viewModalOpen}
         onClose={() => {
-            setViewModalOpen(false);
+          setViewModalOpen(false);
         }}
         selectedLawyer={selectedLawyer}
       />
@@ -65,7 +71,7 @@ const ClientLawyersPage = () => {
         open={bookModalOpen}
         lawyerId={selectedLawyerId}
         onClose={() => {
-            setBookModalOpen(false);
+          setBookModalOpen(false);
         }}
       />
     </ClientLayout>
