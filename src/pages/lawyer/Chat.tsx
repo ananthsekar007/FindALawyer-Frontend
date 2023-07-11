@@ -18,6 +18,7 @@ import { Payment } from "../../types/PaymentTypes";
 import { getPaymentsForLawyers } from "../../api/payments/paymentsApi";
 import RequestMoneyModal from "../../components/lawyer/RequestMoneyModal";
 import { PaymentStatusColors } from "../../constants/AppConstants";
+import CompleteAppointmentModalForLawyer from "../../components/lawyer/CompleteAppointmentForLawyer";
 
 export interface Chat {
   type: string;
@@ -34,6 +35,7 @@ const LawyerChat = () => {
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [completeModalOpen, setCompleteModalOpen] = useState<boolean>(false);
 
   const chatsRef = collection(firebaseDb, "chats");
 
@@ -124,22 +126,32 @@ const LawyerChat = () => {
             <p className="font-semibold text-lg">
               {appointment?.client?.name} {isCompleted && " - Chat History"}
             </p>
-            <div className="w-10 h-10 bg-slate-200 flex justify-center rounded-full shadow hover:shadow-md items-center cursor-pointer">
-              <label
-                htmlFor="file-upload"
-                className={`${
-                  isCompleted ? "cursor-not-allowed" : "cursor-pointer"
-                }`}
+            <div className="h-10 flex space-x-3">
+              <div className="bg-slate-200 w-10 rounded-full shadow hover:shadow-md items-center cursor-pointer flex justify-center">
+                <label
+                  htmlFor="file-upload"
+                  className={`${
+                    isCompleted ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
+                >
+                  <i className="fa-solid fa-paperclip"></i>
+                </label>
+                <input
+                  id="file-upload"
+                  type="file"
+                  style={{ display: "none" }}
+                  onChange={handleFileUpload}
+                  disabled={isCompleted}
+                />
+              </div>
+              <button
+                className="rounded-full bg-red-500 p-2 w-10 shadow hover:shadow-lg"
+                onClick={() => {
+                  setCompleteModalOpen(true);
+                }}
               >
-                <i className="fa-solid fa-paperclip"></i>
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                style={{ display: "none" }}
-                onChange={handleFileUpload}
-                disabled={isCompleted}
-              />
+                <i className="fas fa-times text-white"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -246,7 +258,10 @@ const LawyerChat = () => {
                       >
                         {payment?.appointment?.client?.name || "Ananth $"}
                       </th>
-                      <td className="px-6 py-4"> <b className="font-bold">Rs.</b> {payment.amount}</td>
+                      <td className="px-6 py-4">
+                        {" "}
+                        <b className="font-bold">Rs.</b> {payment.amount}
+                      </td>
                       <td className="px-6 py-4">
                         <p
                           className={`${
@@ -280,6 +295,13 @@ const LawyerChat = () => {
           getPayments(appointment?.appointmentId);
           setModalOpen(false);
         }}
+      />
+      <CompleteAppointmentModalForLawyer
+        open={completeModalOpen}
+        onClose={() => {
+          setCompleteModalOpen(false);
+        }}
+        appointmentId={appointment?.appointmentId}
       />
     </LawyerLayout>
   );
