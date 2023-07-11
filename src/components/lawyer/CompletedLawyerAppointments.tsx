@@ -17,7 +17,7 @@ function CompletedLawyerAppointments({
       <div className="w-full h-36 md:h-44 bg-slate-100 rounded mt-3 grid grid-cols-4 text-sm p-3 overflow-y-auto">
         <p className="font-semibold">Name</p>
         <p className="col-span-2 font-semibold ">Description</p>
-        <p className="font-semibold justify-self-center">Action</p>
+        <p className="font-semibold justify-self-center mb-4">Action</p>
         {completedAppointments.length > 0 &&
           completedAppointments.map((appointment, _) => (
             <>
