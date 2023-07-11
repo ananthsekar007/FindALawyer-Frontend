@@ -47,21 +47,21 @@ function RequestMoneyModal(props: RequestMoneyModalProps) {
     >
       <p className="font-semibold text-lg">Request Money</p>
       <form onSubmit={handleSubmit(onSubmit)} className="mt-10 space-y-5">
-        <TextField
-          label="Enter the Amount"
-          name="amount"
-          type="number"
-          id="caseDescription"
-          register={register}
-          errors={errors}
-          validationSchema={{
-            required: {
-              value: true,
-              message: "Amount is required!",
-            },
-          }}
-        />
-        <Button text="Request now!" loading={loading} />
+          <TextField
+            label="Enter the Amount"
+            name="amount"
+            type="number"
+            id="caseDescription"
+            register={register}
+            errors={errors}
+            validationSchema={{
+              required: {
+                value: true,
+                message: "Amount is required!",
+              },
+            }}
+          />
+        <Button text="Request now!" type="submit" loading={loading} />
       </form>
     </Modal>
   );
