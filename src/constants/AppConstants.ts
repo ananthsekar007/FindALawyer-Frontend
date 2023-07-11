@@ -1,4 +1,5 @@
-export const API_BASE_URL = "http://localhost:5269/api"
+// export const API_BASE_URL = "http://localhost:5269/api"
+export const API_BASE_URL = "https://findalawyerappservice.azurewebsites.net/api"
 export const RAZORPAY_KEY = "rzp_test_6UuOyoPl4PFCdF"
 
 export const LaywerTypes = {
