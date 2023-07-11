@@ -27,6 +27,7 @@ import {
 } from "../../api/payments/paymentsApi";
 import CompleteAppointmentModalForClient from "../../components/client/CompleteAppointmentModal";
 import AddRatingModal from "../../components/client/AddRatingModal";
+import { showErrorMessage } from "../../components/Toast";
 
 const ClientChat = () => {
   const { state } = useLocation();
@@ -65,10 +66,17 @@ const ClientChat = () => {
   };
 
   const getPayments = async (appointmentId?: number) => {
-    if (!appointmentId) return;
-    const response = await getPaymentsForClients(appointmentId);
-    if (!response.data) return;
-    setPayments(response.data);
+    try {
+      if (!appointmentId) return;
+      const response = await getPaymentsForClients(appointmentId);
+      setPayments(response.data);
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    }
   };
 
   useEffect(() => {
@@ -142,26 +150,42 @@ const ClientChat = () => {
       return;
     }
 
-    const response = await createPaymentOrder(paymentId, amount);
-    if (!response.data) return;
-    const options = {
-      key: RAZORPAY_KEY,
-      amount: amount.toString(),
-      currency: "INR",
-      name: "Find A Lawyer",
-      description: "Transaction",
-      order_id: response.data.paymentOrderId,
-      handler: async function (successResponse: any) {
-        const result = await updatePaymentOnSuccess(
-          successResponse.razorpay_order_id,
-          successResponse.razorpay_payment_id
-        );
-        if (!result.data) return;
-        await getPayments();
-      },
-    };
-    const paymentObject = new (window as any).Razorpay(options);
-    paymentObject.open();
+    try {
+      const response = await createPaymentOrder(paymentId, amount);
+
+      const options = {
+        key: RAZORPAY_KEY,
+        amount: amount.toString(),
+        currency: "INR",
+        name: "Find A Lawyer",
+        description: "Transaction",
+        order_id: response.data.paymentOrderId,
+        handler: async function (successResponse: any) {
+          try {
+            const result = await updatePaymentOnSuccess(
+              successResponse.razorpay_order_id,
+              successResponse.razorpay_payment_id
+            );
+            if (!result.data) return;
+            await getPayments();
+          } catch (error: any) {
+            if (error.response) {
+              showErrorMessage(error.response.data);
+            } else {
+              console.log("Non-Axios Error:", error);
+            }
+          }
+        },
+      };
+      const paymentObject = new (window as any).Razorpay(options);
+      paymentObject.open();
+    } catch (error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    }
   };
 
   return (
@@ -357,7 +381,7 @@ const ClientChat = () => {
         }}
         appointmentId={appointment?.appointmentId}
       />
-      <AddRatingModal 
+      <AddRatingModal
         open={rateModalOpen}
         onClose={() => {
           setRateModalOpen(false);
