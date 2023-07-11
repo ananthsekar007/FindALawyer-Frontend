@@ -53,7 +53,7 @@ const LawyerChat = () => {
     setMessage("");
   };
 
-  const chatContainerRef = useRef(null);
+  const chatContainerRef: any = useRef(null);
 
   // Scroll to the bottom of the chat container
   const scrollToBottom = () => {
