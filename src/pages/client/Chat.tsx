@@ -144,7 +144,7 @@ const ClientChat = () => {
       key: RAZORPAY_KEY,
       amount: amount.toString(),
       currency: "INR",
-      name: "Client",
+      name: "Find A Lawyer",
       description: "Transaction",
       order_id: response.data.paymentOrderId,
       handler: async function (successResponse: any) {
