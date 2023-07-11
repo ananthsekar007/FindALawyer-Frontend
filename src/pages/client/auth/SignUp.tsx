@@ -174,7 +174,7 @@ const ClientSignUp = () => {
               label="Confirm Password"
               type="password"
             />
-            <Button text="Sign up" />
+            <Button text="Sign up" type="submit" loading={loading} />
           </form>
           <p
             className="text-xs cursor-pointer self-end"
