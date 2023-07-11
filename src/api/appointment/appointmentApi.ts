@@ -1,4 +1,5 @@
 import { BookingFormData } from "../../components/appointment/BookAppointmentModal";
+import { AppointmentTypes } from "../../constants/AppConstants";
 import { axiosClientInstance, axiosLawyerInstance } from "../axios";
 
 export const bookAppointment = (data: BookingFormData) => {
@@ -28,11 +29,25 @@ export const updateAppointmentsForClient = (
 };
 
 export const updateAppointmentsForLawyer = (
-    appointmentId: number,
-    status: string
-  ) => {
-    return axiosLawyerInstance.put("/appointment/update", {
-      appointmentId,
-      status,
-    });
-  };
+  appointmentId: number,
+  status: string
+) => {
+  return axiosLawyerInstance.put("/appointment/update", {
+    appointmentId,
+    status,
+  });
+};
+
+export const completeAppointmentForLawyer = (appointmentId: number) => {
+  return axiosLawyerInstance.put("/appointment/complete", {
+    appointmentId,
+    status: AppointmentTypes.COMPELETED,
+  });
+};
+
+export const completeAppointmentForClient = (appointmentId: number) => {
+  return axiosClientInstance.put("/appointment/complete", {
+    appointmentId,
+    status: AppointmentTypes.COMPELETED,
+  });
+};
