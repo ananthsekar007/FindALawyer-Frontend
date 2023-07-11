@@ -188,14 +188,16 @@ const ClientChat = () => {
                   disabled={isCompleted}
                 />
               </div>
-              <button
-                className="rounded-full bg-red-500 p-2 w-10 shadow hover:shadow-lg"
-                onClick={() => {
-                  setModalOpen(true);
-                }}
-              >
-                <i className="fas fa-times text-white"></i>
-              </button>
+              {!isCompleted && (
+                <button
+                  className="rounded-full bg-red-500 p-2 w-10 shadow hover:shadow-lg"
+                  onClick={() => {
+                    setModalOpen(true);
+                  }}
+                >
+                  <i className="fas fa-times text-white"></i>
+                </button>
+              )}
             </div>
           </div>
         </div>

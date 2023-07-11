@@ -144,14 +144,16 @@ const LawyerChat = () => {
                   disabled={isCompleted}
                 />
               </div>
-              <button
-                className="rounded-full bg-red-500 p-2 w-10 shadow hover:shadow-lg"
-                onClick={() => {
-                  setCompleteModalOpen(true);
-                }}
-              >
-                <i className="fas fa-times text-white"></i>
-              </button>
+              {!isCompleted && (
+                <button
+                  className="rounded-full bg-red-500 p-2 w-10 shadow hover:shadow-lg"
+                  onClick={() => {
+                    setCompleteModalOpen(true);
+                  }}
+                >
+                  <i className="fas fa-times text-white"></i>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -227,7 +229,7 @@ const LawyerChat = () => {
           </form>
         </div>
         <div className="w-11/12 h-30 bg-white mt-10 rounded-md shadow-xl p-5 flex flex-col">
-          <p className="text-center font-semibold text-lg">Payments</p>
+          <p className="text-center font-semibold text-lg">Payments {isCompleted && 'History'}</p>
 
           <div className="mt-10 relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -276,13 +278,15 @@ const LawyerChat = () => {
               </tbody>
             </table>
           </div>
-          <Button
-            text="Request Payment"
-            className="mt-10 w-10 self-center"
-            onClick={() => {
-              setModalOpen(true);
-            }}
-          />
+          {!isCompleted && (
+            <Button
+              text="Request Payment"
+              className="mt-10 w-10 self-center"
+              onClick={() => {
+                setModalOpen(true);
+              }}
+            />
+          )}
         </div>
       </div>
       <RequestMoneyModal
