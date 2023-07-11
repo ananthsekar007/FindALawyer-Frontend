@@ -4,9 +4,11 @@ import { API_BASE_URL } from "../../constants/AppConstants";
 import { ClientRegisterInputType } from "../../types/ClientAuthType";
 
 export const clientLogin = async (loginInput: UserLoginType) => {
-    return axios.post(`${API_BASE_URL}/auth/client/login`, loginInput);
-}
+  return axios.post(`${API_BASE_URL}/auth/client/login`, loginInput);
+};
 
-export const clientSignUp = async (clientRegisterInput: ClientRegisterInputType) => {
-    return axios.post(`${API_BASE_URL}/auth/client/signup`, clientRegisterInput);
-}
+export const clientSignUp = async (
+  clientRegisterInput: ClientRegisterInputType
+) => {
+  return axios.post(`${API_BASE_URL}/auth/client/signup`, clientRegisterInput);
+};
