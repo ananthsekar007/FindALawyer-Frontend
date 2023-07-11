@@ -10,6 +10,8 @@ import {
 import { lawyerSignUp } from "../../../api/lawyer/lawyerAuthApi";
 import Select from "../../../components/Select";
 import { LaywerTypes } from "../../../constants/AppConstants";
+import { useState } from "react";
+import { showErrorMessage } from "../../../components/Toast";
 
 type SignUpFormValues = {
   name: string;
@@ -24,6 +26,7 @@ type SignUpFormValues = {
 
 const LawyerSignUp = () => {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -34,12 +37,24 @@ const LawyerSignUp = () => {
   const password = watch("password");
 
   const onSignUp = async (data: SignUpFormValues) => {
-    delete data.confirmPassword;
-    const response = await lawyerSignUp(data);
-    if (!response.data) return console.log("Error");
-    setLawyer(response.data.lawyer);
-    setLawyerAuthToken(response.data.authToken);
-    navigate("/lawyer/home");
+    try {
+      delete data.confirmPassword;
+      setLoading(true);
+      const response = await lawyerSignUp(data);
+      setLawyer(response.data.lawyer);
+      setLawyerAuthToken(response.data.authToken);
+      navigate("/lawyer/home");
+    }
+    catch(error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    }
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -206,7 +221,7 @@ const LawyerSignUp = () => {
               label="Confirm Password"
               type="password"
             />
-            <Button text="Sign up" />
+            <Button text="Sign up" type="submit" loading={loading} />
           </form>
           <p
             className="text-xs cursor-pointer self-end"

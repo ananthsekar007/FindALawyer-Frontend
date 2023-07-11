@@ -16,9 +16,6 @@ const ClientLawyersPage = () => {
   const getAllLawyers = async () => {
     try {
       const response = await listAllLawyers();
-      if (!response.data) {
-        console.log("Some error occured");
-      }
       setLawyers(response.data);
     } catch (err) {
       console.error(err);

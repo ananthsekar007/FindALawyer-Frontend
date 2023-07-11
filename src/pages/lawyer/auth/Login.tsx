@@ -6,9 +6,12 @@ import { useForm } from "react-hook-form";
 import { UserLoginType } from "../../../types/UserAuthTypes";
 import { setLawyer, setLawyerAuthToken } from "../../../constants/LocalStorage";
 import { lawyerLogin } from "../../../api/lawyer/lawyerAuthApi";
+import { useState } from "react";
+import { showErrorMessage } from "../../../components/Toast";
 
 const LawyerLogin = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
@@ -17,14 +20,21 @@ const LawyerLogin = () => {
 
   const onLogin = async (data: UserLoginType) => {
     try {
+      setLoading(true);
       const response = await lawyerLogin(data);
-      if(!response.data) return console.log("Error");
       setLawyer(response.data.lawyer);
       setLawyerAuthToken(response.data.authToken);
       navigate("/lawyer/home");
     }
-    catch(err) {
-      console.error(err);
+    catch(error: any) {
+      if (error.response) {
+        showErrorMessage(error.response.data);
+      } else {
+        console.log("Non-Axios Error:", error);
+      }
+    }
+    finally {
+      setLoading(true);
     }
   }
 
@@ -85,7 +95,7 @@ const LawyerLogin = () => {
                 },
               }}
             />
-            <Button type="submit" text="Login" />
+            <Button type="submit" text="Login" loading={loading} />
           </form>
           <p
             className="text-xs cursor-pointer self-end"
