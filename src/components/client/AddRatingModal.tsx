@@ -5,7 +5,6 @@ import TextField from "../TextField";
 import { useForm } from "react-hook-form";
 import Button from "../Button";
 import { RateLawyersBody, rateLawyers } from "../../api/lawyer/lawyerApi";
-import { AxiosError } from "axios";
 import { showErrorMessage, showSuccessMessage } from "../Toast";
 
 interface AddRatingModalProps {
