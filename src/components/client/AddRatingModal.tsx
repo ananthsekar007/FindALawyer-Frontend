@@ -49,6 +49,7 @@ function AddRatingModal(props: AddRatingModalProps) {
       }
     } finally {
       setLoading(false);
+      setRating(0);
       props.onClose();
     }
   };
@@ -63,6 +64,7 @@ function AddRatingModal(props: AddRatingModalProps) {
       }}
     >
       <p className="font-semibold text-lg">Rate the lawyer</p>
+      <div className="flex flex-col mt-10 space-y-5 items-center w-full">
       <StarRating
         isEditable
         initialRating={0}
@@ -70,7 +72,7 @@ function AddRatingModal(props: AddRatingModalProps) {
           setRating(rating);
         }}
       />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
         <TextField
           label="Give Remarks"
           name="remarks"
@@ -88,6 +90,7 @@ function AddRatingModal(props: AddRatingModalProps) {
         />
         <Button text="Review" type="submit" loading={loading} />
       </form>
+      </div>
     </Modal>
   );
 }

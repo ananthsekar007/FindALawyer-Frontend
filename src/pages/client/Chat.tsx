@@ -27,7 +27,7 @@ import {
 } from "../../api/payments/paymentsApi";
 import CompleteAppointmentModalForClient from "../../components/client/CompleteAppointmentModal";
 import AddRatingModal from "../../components/client/AddRatingModal";
-import { showErrorMessage } from "../../components/Toast";
+import { showErrorMessage, showSuccessMessage } from "../../components/Toast";
 
 const ClientChat = () => {
   const { state } = useLocation();
@@ -72,7 +72,7 @@ const ClientChat = () => {
       setPayments(response.data);
     } catch (error: any) {
       if (error.response) {
-        showErrorMessage(error.response.data);
+        showErrorMessage("Error in getting payments");
       } else {
         console.log("Non-Axios Error:", error);
       }
@@ -166,7 +166,7 @@ const ClientChat = () => {
               successResponse.razorpay_order_id,
               successResponse.razorpay_payment_id
             );
-            if (!result.data) return;
+            showSuccessMessage(result.data.response);
             await getPayments();
           } catch (error: any) {
             if (error.response) {

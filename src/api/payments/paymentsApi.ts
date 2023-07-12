@@ -25,9 +25,9 @@ export const updatePaymentOnSuccess = async (
 };
 
 export const getPaymentsForClients = async (appointmentId: number) => {
-    return axiosClientInstance.get(`/payment?appointmentId=${appointmentId}`);
+    return axiosClientInstance.get(`/payment/getall?appointmentId=${appointmentId}`);
 }
 
 export const getPaymentsForLawyers = async (appointmentId: number) => {
-    return axiosLawyerInstance.get(`/payment?appointmentId=${appointmentId}`);
+    return axiosLawyerInstance.get(`/payment/getall?appointmentId=${appointmentId}`);
 }
