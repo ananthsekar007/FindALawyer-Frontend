@@ -10,8 +10,8 @@ const routerConfig = [
   },
   {
     pathname: "/client/lawyers",
-    name: "Lawyers"
-  }
+    name: "Lawyers",
+  },
 ];
 
 interface ClientLayoutProps {
@@ -81,6 +81,14 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
                     </div>
                   </NavLink>
                 ))}
+                <div
+                  onClick={() => {
+                    clientLogout();
+                    navigate("/");
+                  }}
+                >
+                  <p className={`text-white text-base`}>Logout</p>
+                </div>
               </nav>
             </div>
           </div>

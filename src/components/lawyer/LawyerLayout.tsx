@@ -77,6 +77,14 @@ const LawyerLayout = ({ children }: ClientLayoutProps) => {
                     </div>
                   </NavLink>
                 ))}
+                <div
+                  onClick={() => {
+                    lawyerLogout();
+                    navigate("/");
+                  }}
+                >
+                  <p className={`text-white text-base`}>Logout</p>
+                </div>
               </nav>
             </div>
           </div>
