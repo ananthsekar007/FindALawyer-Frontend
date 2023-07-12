@@ -34,7 +34,7 @@ const LawyerLogin = () => {
       }
     }
     finally {
-      setLoading(true);
+      setLoading(false);
     }
   }
 

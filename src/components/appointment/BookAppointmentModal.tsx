@@ -48,7 +48,7 @@ const BookAppointmentModal = ({
         console.log("Non-Axios Error:", error);
       }
     } finally {
-      setLoading(true);
+      setLoading(false);
       onClose();
     }
   };
