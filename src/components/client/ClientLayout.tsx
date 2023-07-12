@@ -116,7 +116,7 @@ const ClientLayout = ({ children }: ClientLayoutProps) => {
                       className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                       onClick={() => {
                         clientLogout();
-                        navigate("/client/login");
+                        navigate("/");
                       }}
                     >
                       Logout
